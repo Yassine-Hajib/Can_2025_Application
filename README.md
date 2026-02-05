@@ -1,62 +1,55 @@
-# caf
+🚍 CAN 2025 Transport Management App
 
-A new Flutter project.
+A mobile application developed with Flutter (Frontend) and PHP / MySQL Database (Backend) to manage transportation services during CAN 2025 in Morocco.
+The application allows supporters, chauffeurs, and administrators to interact with the transport system according to their roles.
 
-## Getting Started
+📱 Technologies Used
+Frontend (Mobile App)
 
-This project is a starting point for a Flutter application.
+Flutter
+Dart
+Material UI
+MVC / POO architecture
 
-A few resources to get you started if this is your first Flutter project:
+Backend
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+PHP (REST API)
+MySQL Database
+JSON for data exchange
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+👥 User Roles
+👤 Supporteur
 
-/////////////////////////////////////////////
-Les rôles de chaque dossier:
-    models/
-        Contiennent toutes les classes représentant les données.
-        Chaque modèle correspond à une table dans la base Oracle via le backend.
+View transport information
+Check routes and itineraries
+Access stadiums, events, and notifications
+Use map services (Google Maps / Waze)
 
-    services/
-        Contient toute la logique de communication entre Flutter et le backend.\
-        Chaque service :
-            envoie les requêtes HTTP au backend,
-            reçoit les données,
-            les convertit en modèles.
-                    auth_service.dart → login / register
-                    chauffeur_service.dart → CRUD chauffeurs
-                    vehicule_service.dart → CRUD véhicules
+🚗 Chauffeur
 
-Install Flutter :
+View assigned vehicle
+View assigned reservations
+Manage availability
+Access chauffeur dashboard
 
-1. Aller sur : https://docs.flutter.dev/get-started/install
-Télécharger la version Windows
+🛠 Admin
 
-2. Extraire dans :
-    C:\src\flutter (Creer un Dossier src in disque Local C)
-(ne pas utiliser Downloads / Desktop)
+Manage users (add / edit / delete)
+Manage vehicles and chauffeurs
+Manage reservations
+Manage routes, events, stadiums, hotels, and airports
+View statistics and system status
 
-3. Vérifier l'installation
-    Dans CMD :
-    flutter doctor
+🧩 Main Features
 
-4.Dans VS Code → Extensions :
-    Flutter
-    Dart
-
-5. Installer Android Studio (pour l'émulateur)
-    Installer Android Studio
-    SDK Manager → installer Android SDK
-    Virtual Device Manager → créer un émulateur
-
-6. Créer un projet Flutter
-    flutter create my_app
-    cd my_app
-    code .
-
-7. Lancer l'application
-    flutter run
+🔐 Authentication (Login / Signup)
+👥 User management
+🚘 Vehicle management
+👨‍✈️ Chauffeur management
+📅 Reservation system with priority
+⭐ Evaluations and ratings
+🗺 Routes and itineraries
+🎉 Events management
+🔎 Search bar
+🚪 Logout system
+📊 Statistics and scores

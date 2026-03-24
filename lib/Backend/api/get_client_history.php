@@ -6,13 +6,12 @@
     $db = new Connection("caf_db");
     $conn = $db->conn;
 
-    // Get email from URL parameters (e.g. ?email=user@test.com)
     if(isset($_GET['email'])) {
         $email = $_GET['email'];
 
-        // Fetch completed trips (You can add "AND id_reservation NOT IN (SELECT id_reservation FROM avis)" to hide rated ones)
-        // We ensure id_chauffeur IS NOT NULL meaning a driver accepted it
-        $sql = "SELECT * FROM reservations WHERE email_utilisateur = ? AND id_chauffeur IS NOT NULL ORDER BY date_creation DESC";
+        // MODIFIED QUERY: Removed "AND id_chauffeur IS NOT NULL"
+        // Now it returns ALL reservations for this user.
+        $sql = "SELECT * FROM reservations WHERE email_utilisateur = ? ORDER BY date_creation DESC";
         
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);

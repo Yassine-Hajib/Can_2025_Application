@@ -12,6 +12,7 @@
     error_reporting(E_ALL);
 
     include_once '../config/db_connect.php';
+    include_once '../Evaluation.php';
 
     $db = new Connection("caf_db");
     $conn = $db->conn;
@@ -20,21 +21,19 @@
 
     if(!empty($data->id_reservation) && !empty($data->id_chauffeur) && !empty($data->note) && !empty($data->commentaire)) {
         
-        $sql = "INSERT INTO avis (id_reservation, id_chauffeur, note, commentaire) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        
-        if($stmt) {
-            // Bind params: i = integer, s = string
-            $stmt->bind_param("iiis", $data->id_reservation, $data->id_chauffeur, $data->note, $data->commentaire);
-            
-            if($stmt->execute()) {
-                echo json_encode(array("success" => true, "message" => "Évaluation envoyée avec succès !"));
-            } else {
-                echo json_encode(array("success" => false, "message" => "Erreur lors de l'enregistrement."));
-            }
+        $avis = new Evaluation(
+            $data->note,
+            $data->commentaire,
+            $data->id_reservation,
+            $data->id_chauffeur
+        );
+
+        if($avis->add_evaluation($conn)) {
+            echo json_encode(array("success" => true, "message" => "Évaluation envoyée avec succès !"));
         } else {
-            echo json_encode(array("success" => false, "message" => "Erreur SQL."));
+            echo json_encode(array("success" => false, "message" => "Erreur lors de l'enregistrement."));
         }
+
     } else {
         echo json_encode(array("success" => false, "message" => "Données incomplètes."));
     }

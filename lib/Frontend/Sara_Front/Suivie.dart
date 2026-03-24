@@ -35,102 +35,102 @@ class _SuiviPageState extends State<SuiviPage> {
     // POPULATE ALL GROUPS (A - F)
     // ---------------------------------------------------------
     matchs = [
-      // --- GROUPE A ---
-      Match(
-        stade: stades[0], // Casablanca
-        equipe1: "Maroc", code1: "ma",
-        equipe2: "Zambie", code2: "zm",
-        groupe: "Groupe A",
-        horaire: DateTime.now().subtract(const Duration(hours: 2)), // En cours / Fini
-      ),
-      Match(
-        stade: stades[0],
-        equipe1: "RD Congo", code1: "cd",
-        equipe2: "Tanzanie", code2: "tz",
-        groupe: "Groupe A",
-        horaire: DateTime.now().add(const Duration(hours: 2)),
-      ),
+  // --- GROUPE A ---
+  Match(
+    stade: stades[1], // Stade Moulay Abdellah - Rabat
+    equipe1: "Maroc", code1: "ma",
+    equipe2: "Comores", code2: "km",
+    groupe: "Groupe A",
+    horaire: DateTime(2025, 12, 21, 20, 0),
+  ),
+  Match(
+    stade: stades[0], // Stade Mohammed V - Casablanca
+    equipe1: "Mali", code1: "ml",
+    equipe2: "Zambie", code2: "zm",
+    groupe: "Groupe A",
+    horaire: DateTime(2025, 12, 22, 15, 0),
+  ),
 
-      // --- GROUPE B ---
-      Match(
-        stade: stades[1], // Rabat
-        equipe1: "Égypte", code1: "eg",
-        equipe2: "Ghana", code2: "gh",
-        groupe: "Groupe B",
-        horaire: DateTime.now().add(const Duration(days: 1, hours: 14)),
-      ),
-      Match(
-        stade: stades[1],
-        equipe1: "Cap-Vert", code1: "cv",
-        equipe2: "Mozambique", code2: "mz",
-        groupe: "Groupe B",
-        horaire: DateTime.now().add(const Duration(days: 1, hours: 17)),
-      ),
+  // --- GROUPE B ---
+  Match(
+    stade: stades[3], // Grand stade de Marrakech
+    equipe1: "Afrique du Sud", code1: "za",
+    equipe2: "Angola", code2: "ao",
+    groupe: "Groupe B",
+    horaire: DateTime(2025, 12, 22, 18, 0),
+  ),
+  Match(
+    stade: stades[4], // Grand stade d’Agadir
+    equipe1: "Égypte", code1: "eg",
+    equipe2: "Zimbabwe", code2: "zw",
+    groupe: "Groupe B",
+    horaire: DateTime(2025, 12, 22, 21, 0),
+  ),
 
-      // --- GROUPE C ---
-      Match(
-        stade: stades[2], // Tanger
-        equipe1: "Sénégal", code1: "sn",
-        equipe2: "Cameroun", code2: "cm",
-        groupe: "Groupe C",
-        horaire: DateTime.now().add(const Duration(days: 2, hours: 14)),
-      ),
-      Match(
-        stade: stades[2],
-        equipe1: "Guinée", code1: "gn",
-        equipe2: "Gambie", code2: "gm",
-        groupe: "Groupe C",
-        horaire: DateTime.now().add(const Duration(days: 2, hours: 17)),
-      ),
+  // --- GROUPE D ---
+  Match(
+    stade: stades[1], // Rabat
+    equipe1: "RD Congo", code1: "cd",
+    equipe2: "Bénin", code2: "bj",
+    groupe: "Groupe D",
+    horaire: DateTime(2025, 12, 23, 13, 30),
+  ),
+  Match(
+    stade: stades[2], // Tanger
+    equipe1: "Sénégal", code1: "sn",
+    equipe2: "Botswana", code2: "bw",
+    groupe: "Groupe D",
+    horaire: DateTime(2025, 12, 23, 16, 0),
+  ),
 
-      // --- GROUPE D ---
-      Match(
-        stade: stades[3], // Marrakech
-        equipe1: "Algérie", code1: "dz",
-        equipe2: "Burkina Faso", code2: "bf",
-        groupe: "Groupe D",
-        horaire: DateTime.now().add(const Duration(days: 3, hours: 14)),
-      ),
-      Match(
-        stade: stades[3],
-        equipe1: "Mauritanie", code1: "mr",
-        equipe2: "Angola", code2: "ao",
-        groupe: "Groupe D",
-        horaire: DateTime.now().add(const Duration(days: 3, hours: 17)),
-      ),
+  // --- GROUPE C ---
+  Match(
+    stade: stades[5], // Fès
+    equipe1: "Nigeria", code1: "ng",
+    equipe2: "Tanzanie", code2: "tz",
+    groupe: "Groupe C",
+    horaire: DateTime(2025, 12, 23, 18, 30),
+  ),
+  Match(
+    stade: stades[1], // Rabat
+    equipe1: "Tunisie", code1: "tn",
+    equipe2: "Ouganda", code2: "ug",
+    groupe: "Groupe C",
+    horaire: DateTime(2025, 12, 23, 21, 0),
+  ),
 
-       // --- GROUPE E ---
-      Match(
-        stade: stades[4], // Agadir
-        equipe1: "Tunisie", code1: "tn",
-        equipe2: "Mali", code2: "ml",
-        groupe: "Groupe E",
-        horaire: DateTime.now().add(const Duration(days: 4, hours: 14)),
-      ),
-      Match(
-        stade: stades[4],
-        equipe1: "Afrique du Sud", code1: "za",
-        equipe2: "Namibie", code2: "na",
-        groupe: "Groupe E",
-        horaire: DateTime.now().add(const Duration(days: 4, hours: 17)),
-      ),
+  // --- GROUPE E ---
+  Match(
+    stade: stades[0], // Casablanca
+    equipe1: "Burkina Faso", code1: "bf",
+    equipe2: "Guinée équatoriale", code2: "gq",
+    groupe: "Groupe E",
+    horaire: DateTime(2025, 12, 24, 13, 30),
+  ),
+  Match(
+    stade: stades[1], // Rabat
+    equipe1: "Algérie", code1: "dz",
+    equipe2: "Soudan", code2: "sd",
+    groupe: "Groupe E",
+    horaire: DateTime(2025, 12, 24, 16, 0),
+  ),
 
-       // --- GROUPE F ---
-      Match(
-        stade: stades[5], // Fès
-        equipe1: "Côte d'Ivoire", code1: "ci",
-        equipe2: "Nigéria", code2: "ng",
-        groupe: "Groupe F",
-        horaire: DateTime.now().add(const Duration(days: 5, hours: 14)),
-      ),
-      Match(
-        stade: stades[5],
-        equipe1: "Guinée équat.", code1: "gq",
-        equipe2: "Guinée-Bissau", code2: "gw",
-        groupe: "Groupe F",
-        horaire: DateTime.now().add(const Duration(days: 5, hours: 17)),
-      ),
-    ];
+  // --- GROUPE F ---
+  Match(
+    stade: stades[3], // Marrakech
+    equipe1: "Côte d'Ivoire", code1: "ci",
+    equipe2: "Mozambique", code2: "mz",
+    groupe: "Groupe F",
+    horaire: DateTime(2025, 12, 24, 18, 30),
+  ),
+  Match(
+    stade: stades[4], // Agadir
+    equipe1: "Cameroun", code1: "cm",
+    equipe2: "Gabon", code2: "ga",
+    groupe: "Groupe F",
+    horaire: DateTime(2025, 12, 24, 21, 0),
+  ),
+];
 
     // Optional: Refresh logic if needed
     // timer = Timer.periodic(const Duration(minutes: 1), (_) => setState(() {}));
@@ -329,7 +329,7 @@ class _SuiviPageState extends State<SuiviPage> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.grey.shade100,
-              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
+              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
               border: Border.all(color: Colors.grey.shade200, width: 2),
             ),
             child: ClipOval(

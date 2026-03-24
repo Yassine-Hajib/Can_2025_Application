@@ -14,16 +14,17 @@ class _EvaluationPageState extends State<EvaluationPage> {
   // ---------------- STATE ----------------
   int _note = 0;
   bool isLoading = false;
-  List<dynamic> myTrips = []; // List of trips to rate
-  String? selectedTripId;     // Currently selected dropdown item
+  List<dynamic> myTrips = []; 
+  String? selectedTripId;     
 
   final TextEditingController _commentaireController = TextEditingController();
   final TextEditingController _idReservationController = TextEditingController();
   final TextEditingController _idChauffeurController = TextEditingController();
 
   // ---------------- API URLs ----------------
-  final String submitUrl = "http://localhost:8888/Backend/api/evaluation.php";
-  final String historyUrl = "http://localhost:8888/Backend/api/get_client_history.php";
+  // USE 10.0.2.2 for Emulator, or your IP for Real Device
+  final String submitUrl = "http://10.0.2.2:8888/Backend/api/evaluation.php";
+  final String historyUrl = "http://10.0.2.2:8888/Backend/api/get_client_history.php";
 
   // ---------------- COLORS ----------------
   static const Color moroccoRed = Color(0xFFC1272D);
@@ -38,7 +39,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
     _fetchMyTrips();
   }
 
-  // 1. FETCH TRIPS FOR DROPDOWN
+  // 1. FETCH TRIPS
   Future<void> _fetchMyTrips() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
@@ -60,26 +61,33 @@ class _EvaluationPageState extends State<EvaluationPage> {
     }
   }
 
-  // 2. AUTO-FILL LOGIC
+  // 2. AUTO-FILL LOGIC (Fixed for NULL drivers)
   void _onTripSelected(String? reservationId) {
     if (reservationId == null) return;
     
-    // Find the full trip object from the list
     var trip = myTrips.firstWhere((t) => t['id_reservation'].toString() == reservationId);
 
     setState(() {
       selectedTripId = reservationId;
-      // Auto-fill the controllers
       _idReservationController.text = trip['id_reservation'].toString();
-      _idChauffeurController.text = trip['id_chauffeur'].toString();
+      
+      // Safety Check: If driver is NULL, put "En attente" or "0"
+      if (trip['id_chauffeur'] != null) {
+        _idChauffeurController.text = trip['id_chauffeur'].toString();
+      } else {
+        _idChauffeurController.text = ""; // Empty implies no driver yet
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Attention: Aucun chauffeur n'a encore accepté cette course."), backgroundColor: Colors.orange)
+        );
+      }
     });
   }
 
   // 3. SUBMIT LOGIC
   Future<void> submitEvaluation() async {
-    if (_note == 0 || _commentaireController.text.isEmpty || _idReservationController.text.isEmpty) {
+    if (_note == 0 || _commentaireController.text.isEmpty || _idChauffeurController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Veuillez choisir une course, donner une note et un commentaire."), backgroundColor: Colors.orange),
+        const SnackBar(content: Text("Veuillez choisir une course AVEC un chauffeur."), backgroundColor: Colors.orange),
       );
       return;
     }
@@ -106,7 +114,6 @@ class _EvaluationPageState extends State<EvaluationPage> {
           );
         }
         
-        // Reset
         _commentaireController.clear();
         _idReservationController.clear();
         _idChauffeurController.clear();
@@ -139,7 +146,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // ---------------- HEADER ----------------
+            // HEADER
             Stack(
               children: [
                 ClipPath(
@@ -159,10 +166,6 @@ class _EvaluationPageState extends State<EvaluationPage> {
                 Positioned(
                   top: -50, right: -50,
                   child: CircleAvatar(radius: 100, backgroundColor: Colors.white.withOpacity(0.05)),
-                ),
-                Positioned(
-                  bottom: 80, left: -30,
-                  child: CircleAvatar(radius: 60, backgroundColor: Colors.white.withOpacity(0.05)),
                 ),
                 SafeArea(
                   child: Padding(
@@ -194,18 +197,12 @@ class _EvaluationPageState extends State<EvaluationPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "Évaluation", 
-                                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.5)
-                                ),
+                                const Text("Évaluation", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white)),
                                 const SizedBox(height: 4),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                   decoration: BoxDecoration(color: moroccoGreen, borderRadius: BorderRadius.circular(4)),
-                                  child: const Text(
-                                    "VOTRE AVIS COMPTE", 
-                                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)
-                                  ),
+                                  child: const Text("VOTRE AVIS COMPTE", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
                                 ),
                               ],
                             ),
@@ -218,36 +215,40 @@ class _EvaluationPageState extends State<EvaluationPage> {
               ],
             ),
 
-            // ---------------- FORM CONTENT ----------------
+            // FORM CONTENT
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   
-                  // 1. SELECT TRIP DROPDOWN (New Feature)
-                  _sectionTitle("Sélectionnez une course terminée"),
+                  // DROPDOWN
+                  _sectionTitle("Sélectionnez une course"),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 10, offset: const Offset(0, 5))],
-                      border: Border.all(color: moroccoRed.withOpacity(0.2)),
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         isExpanded: true,
                         hint: const Text("Choisir un trajet..."),
                         value: selectedTripId,
-                        icon: const Icon(Icons.arrow_drop_down_circle, color: moroccoRed),
                         items: myTrips.map((trip) {
+                          // Show status in dropdown for clarity
+                          String status = trip['id_chauffeur'] == null ? "(En attente)" : "(Terminée)";
                           return DropdownMenuItem<String>(
                             value: trip['id_reservation'].toString(),
                             child: Text(
-                              "${trip['trajet']} (${trip['date_creation']})",
+                              "${trip['trajet']} $status",
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 13, 
+                                fontWeight: FontWeight.bold,
+                                color: trip['id_chauffeur'] == null ? Colors.red : Colors.black
+                              ),
                             ),
                           );
                         }).toList(),
@@ -258,32 +259,26 @@ class _EvaluationPageState extends State<EvaluationPage> {
 
                   const SizedBox(height: 25),
 
-                  // 2. STAR RATING
+                  // STARS
                   Center(
-                    child: Column(
-                      children: [
-                        const Text("Notez votre expérience", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87)),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(5, (index) {
-                            return IconButton(
-                              onPressed: () => setState(() => _note = index + 1),
-                              icon: Icon(
-                                index < _note ? Icons.star_rounded : Icons.star_border_rounded,
-                                color: index < _note ? starColor : Colors.grey.shade300,
-                                size: 45,
-                              ),
-                            );
-                          }),
-                        ),
-                      ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          onPressed: () => setState(() => _note = index + 1),
+                          icon: Icon(
+                            index < _note ? Icons.star_rounded : Icons.star_border_rounded,
+                            color: index < _note ? starColor : Colors.grey.shade300,
+                            size: 45,
+                          ),
+                        );
+                      }),
                     ),
                   ),
 
                   const SizedBox(height: 25),
 
-                  // 3. COMMENT INPUT
+                  // COMMENT
                   _sectionTitle("Votre Commentaire"),
                   _buildModernInput(
                     controller: _commentaireController,
@@ -294,8 +289,8 @@ class _EvaluationPageState extends State<EvaluationPage> {
 
                   const SizedBox(height: 25),
 
-                  // 4. AUTO-FILLED IDs (Read Only)
-                  _sectionTitle("Détails Techniques (Auto-rempli)"),
+                  // TECHNICAL IDs
+                  _sectionTitle("Détails Techniques"),
                   Row(
                     children: [
                       Expanded(
@@ -303,7 +298,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
                           controller: _idReservationController,
                           hint: "ID Réserv.",
                           icon: Icons.confirmation_number,
-                          isReadOnly: true, // User cannot edit this
+                          isReadOnly: true, 
                         ),
                       ),
                       const SizedBox(width: 15),
@@ -312,7 +307,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
                           controller: _idChauffeurController,
                           hint: "ID Chauffeur",
                           icon: Icons.person_pin,
-                          isReadOnly: true, // User cannot edit this
+                          isReadOnly: true, 
                         ),
                       ),
                     ],
@@ -320,7 +315,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
 
                   const SizedBox(height: 30),
 
-                  // 5. SUBMIT BUTTON
+                  // BUTTON
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -329,7 +324,6 @@ class _EvaluationPageState extends State<EvaluationPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: moroccoGreen,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        elevation: 5,
                       ),
                       child: isLoading 
                         ? const CircularProgressIndicator(color: Colors.white)
@@ -346,8 +340,6 @@ class _EvaluationPageState extends State<EvaluationPage> {
     );
   }
 
-  // ---------------- UI HELPERS ----------------
-
   Widget _sectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -355,25 +347,17 @@ class _EvaluationPageState extends State<EvaluationPage> {
     );
   }
 
-  Widget _buildModernInput({
-    required TextEditingController controller,
-    required String hint,
-    required IconData icon,
-    int maxLines = 1,
-    bool isReadOnly = false,
-  }) {
+  Widget _buildModernInput({required TextEditingController controller, required String hint, required IconData icon, int maxLines = 1, bool isReadOnly = false}) {
     return Container(
       decoration: BoxDecoration(
-        // Grey background if ReadOnly to show it's disabled
         color: isReadOnly ? Colors.grey.shade100 : Colors.white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 10, offset: const Offset(0, 5))],
       ),
       child: TextField(
         controller: controller,
-        readOnly: isReadOnly, // Prevents typing
+        readOnly: isReadOnly,
         maxLines: maxLines,
-        style: TextStyle(color: isReadOnly ? Colors.grey : Colors.black),
         decoration: InputDecoration(
           hintText: hint,
           prefixIcon: Icon(icon, color: isReadOnly ? Colors.grey : moroccoRed.withOpacity(0.8), size: 22),
@@ -390,13 +374,8 @@ class StadiumWaveClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     var path = Path();
     path.lineTo(0, size.height - 60);
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstEndPoint = Offset(size.width / 2.25, size.height - 40);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
-    var secondControlPoint = Offset(size.width - (size.width / 3.25), size.height - 90);
-    var secondEndPoint = Offset(size.width, size.height - 50);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
-    path.lineTo(size.width, size.height - 40);
+    path.quadraticBezierTo(size.width / 4, size.height, size.width / 2.25, size.height - 40);
+    path.quadraticBezierTo(size.width - (size.width / 3.25), size.height - 90, size.width, size.height - 50);
     path.lineTo(size.width, 0);
     path.close();
     return path;

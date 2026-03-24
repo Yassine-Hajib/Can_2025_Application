@@ -11,7 +11,9 @@
     ini_set('display_errors', 0);
     error_reporting(E_ALL);
 
+    // Include DB and the new Class
     include_once '../config/db_connect.php';
+    include_once '../Reservation.php';
 
     $db = new Connection("caf_db");
     $conn = $db->conn;
@@ -20,20 +22,21 @@
 
     if(!empty($data->email) && !empty($data->trajet) && !empty($data->type_reservation) && !empty($data->type_vehicule)) {
         
-        $sql = "INSERT INTO reservations (email_utilisateur, trajet, type_reservation, type_vehicule) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        
-        if($stmt) {
-            $stmt->bind_param("ssss", $data->email, $data->trajet, $data->type_reservation, $data->type_vehicule);
-            
-            if($stmt->execute()) {
-                echo json_encode(array("success" => true, "message" => "Réservation confirmée !"));
-            } else {
-                echo json_encode(array("success" => false, "message" => "Erreur lors de l'enregistrement."));
-            }
+        // 1. Create Object
+        $reservation = new Reservation(
+            $data->email, 
+            $data->trajet, 
+            $data->type_reservation, 
+            $data->type_vehicule
+        );
+
+        // 2. Call Method
+        if($reservation->add_reservation($conn)) {
+            echo json_encode(array("success" => true, "message" => "Réservation confirmée !"));
         } else {
-            echo json_encode(array("success" => false, "message" => "Erreur SQL."));
+            echo json_encode(array("success" => false, "message" => "Erreur lors de l'enregistrement."));
         }
+
     } else {
         echo json_encode(array("success" => false, "message" => "Données incomplètes."));
     }

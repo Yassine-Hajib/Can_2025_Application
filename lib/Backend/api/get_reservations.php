@@ -6,7 +6,7 @@
     $db = new Connection("caf_db");
     $conn = $db->conn;
 
-    // Select reservations that are NOT yet accepted
+    // Récupère uniquement les réservations "En attente"
     $sql = "SELECT * FROM reservations WHERE statut = 'En attente' ORDER BY date_creation DESC";
     $result = $conn->query($sql);
 

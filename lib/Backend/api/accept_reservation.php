@@ -11,7 +11,7 @@
 
     if(!empty($data->id_reservation) && !empty($data->id_chauffeur)) {
         
-        // Update status to 'Validée' and assign chauffeur
+        // Update status to 'Validée' and assign the chauffeur
         $sql = "UPDATE reservations SET statut = 'Validée', id_chauffeur = ? WHERE id_reservation = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $data->id_chauffeur, $data->id_reservation);

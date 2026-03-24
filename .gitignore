@@ -1,62 +1,48 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
+# --- General & System ---
 .DS_Store
-.atom/
-.build/
-.buildlog/
 .history
-.svn/
-.swiftpm/
+Desktop/
 migrate_working_dir/
+*.log
+*.swp
+.thumbs.db
 
-# IntelliJ related
+# --- IDEs (VS Code & IntelliJ/Android Studio) ---
+.vscode/
+.idea/
 *.iml
 *.ipr
 *.iws
-.idea/
+.metadata
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# --- Flutter / Dart ---
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
 /build/
 /coverage/
-
-# Symbolication related
+/ios/Flutter/.last_build_id
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
-# Flutter
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub/
-build/
+# --- Android / iOS Specifics ---
+# Ignore generated binaries and local properties
+/android/local.properties
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
+/ios/Pods/
+/ios/.symlinks/
 
-.metadata
-.Desktop
-# IDE
-.vscode/
-
-# Logs
-*.log
-
-# Env (IMPORTANT)
+# --- Backend (PHP / Laravel / Slim) ---
+# Ignore vendor dependencies and environment configs
+/vendor/
 .env
+.env.testing
+composer.lock
+
+# --- Database ---
+*.sql
+*.sqlite

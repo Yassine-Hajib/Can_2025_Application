@@ -90,8 +90,6 @@ View statistics and system status
 
 🚀 Installation
 1️⃣ Clone the repository
-git clone https://github.com/your-username/can2025-transport-app.git
-cd can2025-transport-app
 2️⃣ Install Flutter dependencies
 flutter pub get
 3️⃣ Run the application

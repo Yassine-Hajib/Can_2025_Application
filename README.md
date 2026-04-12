@@ -1,98 +1,81 @@
-A mobile application developed with Flutter (Frontend) and PHP + MySQL (Backend) to manage transportation services during CAN 2025 in Morocco.
+# 🚌 Transport Management App — CAN 2025 Morocco
 
-The platform allows supporters, chauffeurs, and administrators to interact with the transport system according to their roles.
+A mobile platform connecting supporters, chauffeurs, and administrators to manage transportation services during the Africa Cup of Nations 2025 in Morocco.
 
-📱 Technologies Used
-Frontend (Mobile App)
+---
 
-Flutter
+## 📱 Technologies Used
 
-Dart
+**Frontend (Mobile App)**
+- Flutter / Dart
+- Material UI
+- MVC / OOP Architecture
 
-Material UI
+**Backend**
+- PHP (REST API)
+- MySQL Database
+- JSON for data exchange
 
-MVC / OOP Architecture
+---
 
-Backend
+## 👥 User Roles
 
-PHP (REST API)
+### 👤 Supporter
+- View available transport information
+- Check routes and itineraries
+- Access stadiums and events information
+- Receive notifications
+- Use map services (Google Maps / Waze)
 
-MySQL Database
+### 🚗 Chauffeur
+- View assigned vehicle
+- View assigned reservations
+- Manage availability
+- Access chauffeur dashboard
 
-JSON for data exchange
+### 🛠 Admin
+- Manage users (add / edit / delete)
+- Manage vehicles and chauffeurs
+- Manage reservations and routes
+- Manage events, stadiums, hotels, and airports
+- View statistics and system status
 
-👥 User Roles
-👤 Supporter
+---
 
-Supporters can access transport information and services.
+## 🧩 Main Features
 
-View available transport information
+| Feature | Description |
+|---|---|
+| 🔐 Authentication | Login / Signup system |
+| 👥 User Management | Full CRUD for users |
+| 🚘 Vehicle Management | Track and manage vehicles |
+| 👨‍✈️ Chauffeur Management | Assign and manage chauffeurs |
+| 📅 Reservation System | Priority-based booking |
+| ⭐ Evaluations | Ratings and reviews |
+| 🗺 Routes | Itineraries and navigation |
+| 🎉 Events | Event and stadium management |
+| 🔎 Search | Advanced search functionality |
+| 📊 Statistics | Analytics and system status |
 
-Check routes and itineraries
+---
 
-Access stadiums and events information
+## 🚀 Installation
 
-Receive notifications
+```bash
+# 1. Clone the repository
+git clone https://github.com/Yassine-Hajib/Can_2025_Application
 
-Use map services (Google Maps / Waze)
-
-🚗 Chauffeur
-
-Chauffeurs manage their assigned vehicles and reservations.
-
-View assigned vehicle
-
-View assigned reservations
-
-Manage availability
-
-Access chauffeur dashboard
-
-🛠 Admin
-
-Administrators manage the entire system.
-
-Manage users (add / edit / delete)
-
-Manage vehicles and chauffeurs
-
-Manage reservations
-
-Manage routes
-
-Manage events, stadiums, hotels, and airports
-
-View statistics and system status
-
-🧩 Main Features
-
-🔐 Authentication (Login / Signup)
-
-👥 User Management
-
-🚘 Vehicle Management
-
-👨‍✈️ Chauffeur Management
-
-📅 Reservation System with priority
-
-⭐ Evaluations and ratings
-
-🗺 Routes and itineraries
-
-🎉 Events Management
-
-🔎 Search functionality
-
-🚪 Logout system
-
-📊 Statistics and analytics
-
-🚀 Installation
-1️⃣ Clone the repository
-2️⃣ Install Flutter dependencies
+# 2. Install Flutter dependencies
 flutter pub get
-3️⃣ Run the application
-flutter run
 
-Make sure you have a connected emulator or physical device.
+# 3. Run the application
+flutter run
+```
+
+> Make sure you have a connected emulator or physical device.
+
+---
+
+## 📄 License
+
+This project was developed as part of the CAN 2025 Morocco initiative.
